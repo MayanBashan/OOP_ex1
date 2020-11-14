@@ -30,23 +30,29 @@ public class WGraph_DS implements weighted_graph {
     }
 
     //deep constructor
-    public WGraph_DS(WGraph_DS other){
-        this._mode_count = other._mode_count;
-        this._edge_sum = other._edge_sum;
+    public WGraph_DS(weighted_graph other) {
+        this._mode_count = other.getMC();
+        this._edge_sum = other.edgeSize();
 
         this._nodes = new HashMap<>();
-        for (Integer key : other._nodes.keySet()){
-            this._nodes.put(key, getNode(key));
+        for (node_info node : other.getV()) {
+            this._nodes.put(node.get_key(), node);
         }
-
+        int current_key, neighbor_key;
         this._edges = new HashMap<>();
-        for (Integer key : other._edges.keySet()) {
-            for (Integer neighbor_key : other._edges.get(key).keySet()) {
-                this._edges.put(key, null); //insert node
-                this._edges.get(key).put(neighbor_key, other._edges.get(key).get(neighbor_key)); //insert node's neighbor and edge weight
+
+        for (node_info node : other.getV()) {
+            current_key = node.get_key();
+            if (other.getV(current_key) != null) { //if current node has neighbors
+                for (node_info neighbor : other.getV(current_key)) { //go over all neighbors
+                    neighbor_key = neighbor.get_key();
+                    if (!this._edges.containsKey(neighbor_key)) //if neighbor still not in _edges
+                        connect(current_key, neighbor_key, other.getEdge(current_key, neighbor_key)); //add the edge between both
+                }
             }
         }
     }
+
 
     public boolean equals(WGraph_DS graph) {
         if (this._edge_sum != graph._edge_sum || this.nodeSize() != graph.nodeSize()) {
