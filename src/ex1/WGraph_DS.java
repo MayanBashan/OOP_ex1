@@ -1,8 +1,9 @@
 package ex1;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class WGraph_DS implements weighted_graph {
+public class WGraph_DS implements weighted_graph, java.io.Serializable {
 
     private int _mode_count;
     private int _edge_sum;
@@ -100,6 +101,7 @@ public class WGraph_DS implements weighted_graph {
 
     @Override
     public void connect(int node1, int node2, double w) {
+        if (node1 == node2) return;
         if (hasEdge(node1, node2)){ //if edge exist
             if (this._edges.get(node1).get(node2)!=w) { //if edge weight needs to be updated
                 this._edges.get(node1).put(node2, w);
