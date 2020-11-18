@@ -6,10 +6,6 @@ public class WGraph_DS implements weighted_graph, java.io.Serializable {
     private int _edge_sum;
     private HashMap<Integer, HashMap<Integer,Double>> _edges; //getter and setter?
     private HashMap<Integer, node_info> _nodes;               //getter and setter?
-    //private List<LinkedList<Integer>> graph; //the index in the list represents the node's key
-    //private HashMap<int [], Double> edges; //<[node1 , node2] , edge weight>
-    //private List<LinkedList<Array>> graph1; // ??
-    //private Vector<List<Node>>
 
     //constructor
     public WGraph_DS(){
