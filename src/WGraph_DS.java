@@ -1,6 +1,3 @@
-package ex1;
-
-import java.io.Serializable;
 import java.util.*;
 
 public class WGraph_DS implements weighted_graph, java.io.Serializable {
@@ -32,13 +29,20 @@ public class WGraph_DS implements weighted_graph, java.io.Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        WGraph_DS wGraph_ds = (WGraph_DS) o;
-        return _edge_sum == wGraph_ds._edge_sum &&
-                Objects.equals(_edges, wGraph_ds._edges) &&
-                Objects.equals(_nodes, wGraph_ds._nodes);
+        weighted_graph graph = (weighted_graph) o;
+        if (this._edge_sum != graph.edgeSize() || this.nodeSize() != graph.nodeSize()) {
+            return false;
+        }
+
+        for (Integer key : this._edges.keySet()) {
+            for (Integer key2 : this._edges.get(key).keySet()){
+                if (!graph.hasEdge(key,key2)) // should work goot (integer and double)
+                    return false;
+            }
+        }
+        return true; //?? maybe need to check to other side as well? another for?? to include eveything
     }
+
 
     @Override
     public int hashCode() {
@@ -70,19 +74,8 @@ public class WGraph_DS implements weighted_graph, java.io.Serializable {
     }
 
 
-    public boolean equals(weighted_graph graph) {
-        if (this._edge_sum != graph.edgeSize() || this.nodeSize() != graph.nodeSize()) {
-            return false;
-        }
+  //  public boolean equals(weighted_graph graph) {
 
-        for (Integer key : this._edges.keySet()) {
-            for (Integer key2 : this._edges.get(key).keySet()){
-                if (!graph.hasEdge(key,key2)) // should work goot (integer and double)
-                    return false;
-            }
-        }
-        return true; //?? maybe need to check to other side as well? another for?? to include eveything
-    }
 
     @Override
     public node_info getNode(int key) {
@@ -110,8 +103,8 @@ public class WGraph_DS implements weighted_graph, java.io.Serializable {
         if (!this._nodes.containsKey(key)){
             node_info new_node = new Node(key);
             _nodes.put(key,new_node); //adds node to nodes list
-            HashMap<Integer, Double> map = new HashMap<>();
-            this._edges.put(key,map); //still no edges for this key node
+            //HashMap<Integer, Double> map = new HashMap<>();
+            //this._edges.put(key,map); //still no edges for this key node
             this._mode_count++;
         }
     }
