@@ -1,4 +1,3 @@
-package ex1;
 import java.util.List;
 /**
  * This interface represents an Undirected (positive) Weighted Graph Theory algorithms including:
@@ -24,7 +23,7 @@ public interface weighted_graph_algorithms {
      * Return the underlying graph of which this class works.
      * @return
      */
-    public weighted_graph getGraph();
+    public weighted_graph get_graph();
     /**
      * Compute a deep copy of this weighted graph.
      * @return
