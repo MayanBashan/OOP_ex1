@@ -30,10 +30,25 @@ public class WGraph_DS implements weighted_graph, java.io.Serializable {
         this._edges = edges;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WGraph_DS wGraph_ds = (WGraph_DS) o;
+        return _edge_sum == wGraph_ds._edge_sum &&
+                Objects.equals(_edges, wGraph_ds._edges) &&
+                Objects.equals(_nodes, wGraph_ds._nodes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_mode_count, _edge_sum, _edges, _nodes);
+    }
+
     //deep constructor
     public WGraph_DS(weighted_graph other) {
         this._mode_count = other.getMC();
-        this._edge_sum = other.edgeSize();
+        this._edge_sum = 0;
 
         this._nodes = new HashMap<>();
         for (node_info node : other.getV()) {
@@ -47,22 +62,24 @@ public class WGraph_DS implements weighted_graph, java.io.Serializable {
             if (other.getV(current_key) != null) { //if current node has neighbors
                 for (node_info neighbor : other.getV(current_key)) { //go over all neighbors
                     neighbor_key = neighbor.get_key();
-                    if (!this._edges.containsKey(neighbor_key)) //if neighbor still not in _edges
-                        connect(current_key, neighbor_key, other.getEdge(current_key, neighbor_key)); //add the edge between both
+                    //if (!this._edges.containsKey(neighbor_key)) //if neighbor still not in _edges
+                    connect(current_key, neighbor_key, other.getEdge(current_key, neighbor_key)); //add the edge between both
                 }
             }
         }
     }
 
 
-    public boolean equals(WGraph_DS graph) {
-        if (this._edge_sum != graph._edge_sum || this.nodeSize() != graph.nodeSize()) {
+    public boolean equals(weighted_graph graph) {
+        if (this._edge_sum != graph.edgeSize() || this.nodeSize() != graph.nodeSize()) {
             return false;
         }
 
         for (Integer key : this._edges.keySet()) {
-            if (!graph._edges.get(key).equals(this._edges.get(key))) // should work goot (integer and double)
-                return false;
+            for (Integer key2 : this._edges.get(key).keySet()){
+                if (!graph.hasEdge(key,key2)) // should work goot (integer and double)
+                    return false;
+            }
         }
         return true; //?? maybe need to check to other side as well? another for?? to include eveything
     }
@@ -112,8 +129,22 @@ public class WGraph_DS implements weighted_graph, java.io.Serializable {
 
         else{ //no edge exists between two given nodes
             //add nodes to each other neighbor list
-            this._edges.get(node1).put(node2, w);
-            this._edges.get(node2).put(node1, w);
+            if (this._edges.containsKey(node1)){
+                this._edges.get(node1).put(node2, w);
+            }
+            else{
+                HashMap<Integer, Double> new_map = new HashMap<>();
+                this._edges.put(node1, new_map);
+                this._edges.get(node1).put(node2,w);
+            }
+            if (this._edges.containsKey(node2)){
+                this._edges.get(node2).put(node1, w);
+            }
+            else {
+                HashMap<Integer, Double> new_map = new HashMap<>();
+                this._edges.put(node2, new_map);
+                this._edges.get(node2).put(node1, w);
+            }
             this._edge_sum++;
             _mode_count++;
         }
