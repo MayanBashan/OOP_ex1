@@ -65,7 +65,7 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
     public double shortestPathDist(int src, int dest) {
         List<node_info> list_path = new LinkedList<>();
         list_path = shortestPath(src, dest);
-        if (list_path.size() == 0) return -1; //no such path
+        if (list_path == null) return -1; //no such path
         Collections.reverse(list_path);
         node_info last = list_path.iterator().next();
         return last.get_tag();
@@ -77,12 +77,6 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
         List<node_info> list_path = new LinkedList<>();
         if (src == dest) {
             list_path.add(this._graph.getNode(src));
-            return list_path;
-        }
-
-        if (this._graph.hasEdge(src, dest)) {
-            list_path.add(this._graph.getNode(src));
-            list_path.add(this._graph.getNode(dest));
             return list_path;
         }
 
@@ -106,16 +100,24 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
 
         while (!pqueue.isEmpty()) {
             int current = ExtractMin(pqueue);
-            pqueue.remove(current);
-            for (node_info neighbor : _graph.getV(current)) {
-                if (!map_visited.containsKey(neighbor.get_key())) {
-                    if (_graph.getNode(current).get_tag() + _graph.getEdge(current, neighbor.get_key()) < neighbor.get_tag()) {
-                        neighbor.set_tag(_graph.getNode(current).get_tag() + _graph.getEdge(current, neighbor.get_key())); //update temporal weight from src to neighbor node
-                        map_prev.put(neighbor.get_key(), _graph.getNode(current));
+            if (current != -1) {
+                pqueue.remove(current);
+                if (_graph.getV(current)!=null) {
+                    for (node_info neighbor : _graph.getV(current)) {
+                        if (!map_visited.containsKey(neighbor.get_key())) {
+                            if (_graph.getNode(current).get_tag() + _graph.getEdge(current, neighbor.get_key()) < neighbor.get_tag()) {
+                                neighbor.set_tag(_graph.getNode(current).get_tag() + _graph.getEdge(current, neighbor.get_key())); //update temporal weight from src to neighbor node
+                                map_prev.put(neighbor.get_key(), _graph.getNode(current));
+                            }
+                        }
                     }
                 }
+                map_visited.put(current, _graph.getNode(current).get_tag()); //key --> temporal weight
             }
-            map_visited.put(current, _graph.getNode(current).get_tag()); //key --> temporal weight
+
+            else{
+                pqueue.poll();
+            }
         }
 
         int node_key = dest;
@@ -147,10 +149,12 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
 
     @Override
     public boolean save(String file) {
+        return true;
     }
 
     @Override
     public boolean load(String file) {
+        return true;
     }
 
     @Override
