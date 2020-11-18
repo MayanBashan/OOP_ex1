@@ -1,41 +1,39 @@
-import ex1.WGraph_DS;
-import ex1.node_info;
-import ex1.weighted_graph;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.w3c.dom.Node;
 
 import java.util.Collection;
-import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class WGraph_DSTest {
-    
+
     @Test
     void getNode() {
         weighted_graph graph = new WGraph_DS();
-        for (int i=1; i<=5; i++){
+        for (int i=1; i<=1000000; i++){
             graph.addNode(i);
         }
-        graph.connect(1,2,3);
-        graph.connect(1,4,10);
-        graph.connect(2,4,1.5);
-        graph.connect(3,2,2);
-        graph.connect(3,4,1);
-        graph.connect(3,5,7);
-        graph.connect(4,2,1.5);
-        graph.connect(4,3,1);
-        graph.connect(5,3,26.3);
-        graph.connect(5,4,1);
-
+        for (int i=1; i<=500000; i++){
+            for (int j=1; j<=20; j++)
+                graph.connect(i,j,1);
+        }
+        //graph.connect(1,2,3);
+        //graph.connect(1,4,10);
+        //graph.connect(2,4,1.5);
+        //graph.connect(3,2,2);
+        //graph.connect(3,4,1);
+        //graph.connect(3,5,7);
+        //graph.connect(4,2,1.5);
+        //graph.connect(4,3,1);
+        //graph.connect(5,3,26.3);
+        //graph.connect(5,4,1);
+//
         assertEquals(graph.getNode(2).get_key(),2);
-
-        //if node does not exist in graph
-        boolean flag=false;
-        if (graph.getNode(6) == null)
-            flag = true;
-        assertTrue(flag);
+//
+        ////if node does not exist in graph
+        //boolean flag=false;
+        //if (graph.getNode(2000000) == null)
+        //    flag = true;
+        //assertTrue(flag);
     }
 
     @Test
