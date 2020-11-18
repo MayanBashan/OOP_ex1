@@ -1,8 +1,3 @@
-package ex1;
-
-import org.w3c.dom.Node;
-
-import java.io.*;
 import java.util.*;
 
 public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializable {
@@ -150,15 +145,26 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
     }
 
 
+    @Override
+    public boolean save(String file) {
+    }
 
-    //@Override
-    //public boolean save(String file) {
-    //
-    //}
-//
-    //@Override
-    //public boolean load(String file) {
-    //
-    //}
+    @Override
+    public boolean load(String file) {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WGraph_Algo that = (WGraph_Algo) o;
+        return Objects.equals(_graph, that._graph);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_graph);
+    }
+
 
 }
