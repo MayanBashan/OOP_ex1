@@ -7,7 +7,7 @@ Included methods: find shortest path and its distance, add or remove vertices an
  * *undirected graph - each edge can be traversed in either direction*
  * *weighted graph - edges have weight*
  
- Example:
+##### Example:
  
  ![](/undirected_weighted_graph.png)
  
