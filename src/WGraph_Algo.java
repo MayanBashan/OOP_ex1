@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.*;
 
 /**
@@ -222,7 +223,18 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
      */
     @Override
     public boolean save(String file) {
-        return true;
+        try{
+            FileOutputStream fos= new FileOutputStream(file);
+            ObjectOutputStream oos= new ObjectOutputStream(fos);
+            oos.writeObject(this._graph);
+            fos.close();
+            oos.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+            return false;
+        }
+        return true; //if no exception
     }
 
     /**
@@ -235,7 +247,19 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
      */
     @Override
     public boolean load(String file) {
-        return true;
+        try{
+            FileInputStream fis=new FileInputStream(file);
+            ObjectInputStream ois=new ObjectInputStream(fis);
+            weighted_graph graph=(weighted_graph)ois.readObject();
+            fis.close();
+            ois.close();
+            this._graph=graph;
+        }
+        catch(IOException|ClassNotFoundException e){
+            e.printStackTrace();
+            return false;
+        }
+        return true; //if no exception - it means graph was loaded successfully to the file
     }
 
     /**
