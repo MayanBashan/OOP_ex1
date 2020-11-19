@@ -1,6 +1,6 @@
 import java.util.*;
 /**
- * This class represents an unidirectional weighted graph,
+ * This class represents an undirectional weighted graph,
  * and the set of methods that operate on this kind of graph.
  * Some of the operations included:  add a vertex, remove a vertex, connect between 2 vertices, return num of edges,
  * remove an edge, etc.
@@ -285,7 +285,7 @@ public class WGraph_DS implements weighted_graph, java.io.Serializable {
      * tag (Double) which will is used as a temporary data.
      * @author Mayan Bashan
      */
-    private class Node implements node_info {
+    private class Node implements node_info, java.io.Serializable {
 
         int _key;
         String _info;
