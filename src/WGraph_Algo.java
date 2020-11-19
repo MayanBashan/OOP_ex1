@@ -1,37 +1,82 @@
 import java.util.*;
 
+/**
+ * This class represents algorithms that operate on an undirected weighted graph.
+ * Operations included: checking if a graph is connected, return distance of the
+ * shortest path, return the shortest path, etc.
+ * In the methods, I used the Dijkstra algorithm and used 2 main data structures - a priority queue and 2 hashmaps:
+ * 1) Hashmap for visited nodes
+ * 2) Hashmap which represents the parent node of each node
+ * The Dijkstra algorithm include the following:
+ * Note: a current node's tag is used as temporal data - and represents the weight from the src node to the current node.
+ * At first, all vertices weights are initialized with infinity, and all nodes are being inserted into the priority queue.
+ * While priority queue is not empty - the node that is pulled out is the node which its weight is the smallest.
+ * Than we go over all its neighbors and checks for each node_neighbor:
+ * if node.weight + getEdge(node, node_neighbor) < node_neighbor.weight
+ * then update node_neighbor weight to be node.weight + getEdge(node, node_neighbor).
+ * After this, we also update in map_prev hashmap, that node is the parent of neighbor_node.
+ * After going over all node's neighbors - node is marked as visited in the map_visited hashmap.
+ * We keep in the same algorithm until the queue is empty.
+ * Do notice - every method in this class contains a fuller explanation above it.
+ * @author Mayan Bashan
+ */
+
 public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializable {
 
     private weighted_graph _graph;
 
+    /**
+     *  This is a WGraph_Algo constructor.
+     */
     public WGraph_Algo() {
         this._graph = new WGraph_DS();
     }
 
-    public WGraph_Algo(WGraph_Algo other) {
-        this._graph = other._graph;
-    }
-
-    public WGraph_Algo(weighted_graph g) { //need this if I have the init method?
+    /**
+     *  This is a WGraph_Algo constructor,  it gets input data:
+     * @param g - graph
+     */
+      public WGraph_Algo(weighted_graph g) { //need this if I have the init method?
         this._graph = g;
     }
 
+    /**
+     * Initialize the given graph, on which algorithms operate
+     * @param g
+     */
     @Override
     public void init(weighted_graph g) {
         this._graph = g;
     }
 
+    /**
+     * This method returns this WGraph_Algo graph.
+     */
     @Override
     public weighted_graph get_graph() {
         return this._graph;
     }
 
+    /**
+     * This method is a deep copy of a this graph.
+     * @return a graph that represents deep copy of this graph
+     */
     @Override
     public weighted_graph copy() {
         weighted_graph g = new WGraph_DS(this._graph);
         return g;
     }
 
+    /**
+     * This method checks if a graph is connectd or not.
+     * Algorithm fuller explanation - At the end, the graph's number of vertices
+     *                                is compared to the hashmap size (reminder - the hashmap contains
+     *                                all nodes that were visited).
+     *                                It means that if the number is not the same - the graph is not connected and
+     *                                the method will return false.
+     *                                If the number is the same - it is possible to get from every node to each
+     *                                node in the graph and the method will return true.
+     */
     @Override
     public boolean isConnected() {
 
@@ -56,11 +101,16 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
                 }
             }
         }
-        if (this._graph.nodeSize() == map_visited.size()) return true; //Means we visited each node in the graph
-        else return false;
+        return this._graph.nodeSize() == map_visited.size(); //Means we visited each node in the graph
     }
 
-
+    /**
+     * This method returns the weight of edges of the shortest path (considering weight) between src to dest.
+     * It uses the method 'shortestPath' which has an explanation.
+     * @param src - start node
+     * @param dest - end node
+     * @return - if there is no such path, returns -1
+     */
     @Override
     public double shortestPathDist(int src, int dest) {
         List<node_info> list_path = new LinkedList<>();
@@ -71,6 +121,21 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
         return last.get_tag();
     }
 
+    /**
+     * This method returns a list of the shortest path (considering weight) between src to dest.
+     * Algorithm fuller explanation - Here as well there is a use in the Dijkstra algorithm.
+     *                                There are 2 hashmaps in this method:
+     *                                - hashmap for nodes that already have been visited.
+     *                                - hashmap to store the preveious (parent) node of some nodes.
+     *                                After the queue is empty, the method is going from the end node to the start node
+     *                                by using the hashmap of parent nodes, until it gets to null - that is how it
+     *                                creates the list from dest to src and in the end only reverse it (so it will
+     *                                return the path from src to dest) and returns the list.
+     *                                If there is no such path - the method will return null.
+     * @param src - start node
+     * @param dest - end node
+     * @return - list from src to dest, or null if there is no such path
+     */
     @Override
     public List<node_info> shortestPath(int src, int dest) {
 
@@ -134,6 +199,11 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
         else return null;
     }
 
+    /**
+     * This method returns the key of the node with the smallest tad
+     * Note: the tag represents a temporal data - it is the weight between src node to current node
+     * @param pq - priority queue
+     */
     public int ExtractMin(PriorityQueue<Integer> pq){
         int nodeKey_min_tag=-1; //need to change
         double min_tag = Double.MAX_VALUE;
@@ -146,17 +216,31 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
         return nodeKey_min_tag;
     }
 
-
+    /**
+     * Saves this undirected weighted graph to the given file name.
+     * @return true - if the file was successfully saved, otherwise - return false
+     */
     @Override
     public boolean save(String file) {
         return true;
     }
 
+    /**
+     * This method load a graph to this graph algorithm.
+     * if the file was successfully loaded - the graph
+     * of this class will be updated to the loaded one.
+     * In case the graph was not loaded the original graph should remain as is.
+     * @param file - file name
+     * @return true - if the graph was successfully loaded, otherwise - return false
+     */
     @Override
     public boolean load(String file) {
         return true;
     }
 
+    /**
+     * This method checks if two graph algorithms are equal or not.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -169,6 +253,9 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
     public int hashCode() {
         return Objects.hash(_graph);
     }
+
+
+
 
 
 }
