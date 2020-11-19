@@ -7,7 +7,7 @@ Definitions
  * *undirected graph - each edge can be traversed in either direction*
  * *weighted graph - edges have weight*
  
- ![alt text](http://url/to/img.png)
+ ![](OOP_ex1/undirected_weighted_graph.png)
 
 
 
