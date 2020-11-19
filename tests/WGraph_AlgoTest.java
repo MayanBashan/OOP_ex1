@@ -396,18 +396,37 @@ class WGraph_AlgoTest {
     }
 
     @Test
-    void save() {
-        weighted_graph g = new WGraph_DS();
-        this.get_graph();
-        weighted_graph loaded = new WGraph_DS();
-        WGraph_Algo big = new WGraph_Algo(loaded);
-        big.save(filename);
-        big.load(filename);
-        boolean flag = loaded.equals(big);
-        assertTrue(flag);
+    void save_load() {
+        weighted_graph graph = new WGraph_DS();
+        weighted_graph graph2 = new WGraph_DS();
+        for (int i=0; i<=7; i++){
+            graph.addNode(i);
+            graph2.addNode(i);
+        }
+        graph.connect(0,1,1);
+        graph.connect(0,3,3);
+        graph.connect(0,4,1);
+        graph.connect(1,2,2);
+        graph.connect(1,3,6);
+        graph.connect(2,4,1);
+        graph.connect(4,5,9);
+        graph.connect(6,7,100);
+
+        graph2.connect(0,1,1);
+        graph2.connect(6,7,100);
+
+        weighted_graph_algorithms graph_algo = new WGraph_Algo(graph);
+        weighted_graph_algorithms graph_algo2 = new WGraph_Algo(graph2);
+
+        assertNotEquals(graph_algo,graph_algo2); //not equals
+
+        String file = "text.txt";
+        graph_algo.save(file);
+        graph_algo2.load(file);
+        assertEquals(graph_algo,graph_algo2); //after save and load should be equals
     }
 
-    @Test
-    void load() {
-    }
+
+
+
 }
