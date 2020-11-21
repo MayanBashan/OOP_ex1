@@ -1,3 +1,4 @@
+package ex1.src;
 import java.util.*;
 /**
  * This class represents an undirectional weighted graph,

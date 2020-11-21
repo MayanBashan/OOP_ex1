@@ -1,3 +1,4 @@
+package ex1.src;
 import java.io.*;
 import java.util.*;
 
@@ -9,7 +10,7 @@ import java.util.*;
  * 1) Hashmap for visited nodes
  * 2) Hashmap which represents the parent node of each node
  * The Dijkstra algorithm include the following:
- * Note: a current node's tag is used as temporal data - and represents the weight from the src node to the current node.
+ * Note: a current node's tag is used as temporal data - and represents the weight from the ex1.src node to the current node.
  * At first, all vertices weights are initialized with infinity, and all nodes are being inserted into the priority queue.
  * While priority queue is not empty - the node that is pulled out is the node which its weight is the smallest.
  * Than we go over all its neighbors and checks for each node_neighbor:
@@ -106,7 +107,7 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
     }
 
     /**
-     * This method returns the weight of edges of the shortest path (considering weight) between src to dest.
+     * This method returns the weight of edges of the shortest path (considering weight) between ex1.src to dest.
      * It uses the method 'shortestPath' which has an explanation.
      * @param src - start node
      * @param dest - end node
@@ -123,19 +124,19 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
     }
 
     /**
-     * This method returns a list of the shortest path (considering weight) between src to dest.
+     * This method returns a list of the shortest path (considering weight) between ex1.src to dest.
      * Algorithm fuller explanation - Here as well there is a use in the Dijkstra algorithm.
      *                                There are 2 hashmaps in this method:
      *                                - hashmap for nodes that already have been visited.
      *                                - hashmap to store the preveious (parent) node of some nodes.
      *                                After the queue is empty, the method is going from the end node to the start node
      *                                by using the hashmap of parent nodes, until it gets to null - that is how it
-     *                                creates the list from dest to src and in the end only reverse it (so it will
-     *                                return the path from src to dest) and returns the list.
+     *                                creates the list from dest to ex1.src and in the end only reverse it (so it will
+     *                                return the path from ex1.src to dest) and returns the list.
      *                                If there is no such path - the method will return null.
      * @param src - start node
      * @param dest - end node
-     * @return - list from src to dest, or null if there is no such path
+     * @return - list from ex1.src to dest, or null if there is no such path
      */
     @Override
     public List<node_info> shortestPath(int src, int dest) {
@@ -172,7 +173,7 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
                     for (node_info neighbor : _graph.getV(current)) {
                         if (!map_visited.containsKey(neighbor.get_key())) {
                             if (_graph.getNode(current).get_tag() + _graph.getEdge(current, neighbor.get_key()) < neighbor.get_tag()) {
-                                neighbor.set_tag(_graph.getNode(current).get_tag() + _graph.getEdge(current, neighbor.get_key())); //update temporal weight from src to neighbor node
+                                neighbor.set_tag(_graph.getNode(current).get_tag() + _graph.getEdge(current, neighbor.get_key())); //update temporal weight from ex1.src to neighbor node
                                 map_prev.put(neighbor.get_key(), _graph.getNode(current));
                             }
                         }
@@ -202,7 +203,7 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
 
     /**
      * This method returns the key of the node with the smallest tad
-     * Note: the tag represents a temporal data - it is the weight between src node to current node
+     * Note: the tag represents a temporal data - it is the weight between ex1.src node to current node
      * @param pq - priority queue
      */
     public int ExtractMin(PriorityQueue<Integer> pq){
