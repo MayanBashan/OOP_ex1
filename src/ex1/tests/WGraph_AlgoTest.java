@@ -195,7 +195,6 @@ class WGraph_AlgoTest {
         graph.connect(4,5,9);
 
         WGraph_Algo graph_algo = new WGraph_Algo(graph);
-
         double actual_dist = graph_algo.shortestPathDist(2,5);
 
         assertEquals(10,actual_dist);
