@@ -2,6 +2,7 @@ package ex1.tests;
 
 import ex1.src.*;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Node;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -146,7 +147,6 @@ class WGraph_DSTest {
         graph.connect(1,2,3);
         graph.connect(2,1,3);
 
-
         Collection<node_info> collection = graph.getV(1); //1 is connected to 2 and 3
         if (collection.size()!=1) flag = false;
         else{
@@ -157,9 +157,8 @@ class WGraph_DSTest {
             }
         }
 
-        Collection<node_info> collection2 = graph.getV(4);
-        Collection<node_info> collection_expected = new LinkedList<>();
-        assertEquals(collection2, collection_expected); //test for empty collection
+        Collection<node_info> collection2 = graph.getV(4); //collection2 should be empty
+        assertEquals(collection2.size(), 0); //test for empty collection
         assertTrue(flag);
     }
 
