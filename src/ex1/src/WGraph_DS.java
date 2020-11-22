@@ -17,8 +17,8 @@ public class WGraph_DS implements weighted_graph, java.io.Serializable {
 
     private int _mode_count;
     private int _edge_sum;
-    private HashMap<Integer, HashMap<Integer,Double>> _edges; //getter and setter?
-    private HashMap<Integer, node_info> _nodes;               //getter and setter?
+    private HashMap<Integer, HashMap<Integer,Double>> _edges;
+    private HashMap<Integer, node_info> _nodes;
 
     /**
      * This is a WGraph_DS constructor.
@@ -49,7 +49,7 @@ public class WGraph_DS implements weighted_graph, java.io.Serializable {
      * @param other - input graph
      */
     public WGraph_DS(weighted_graph other) {
-        this._mode_count = other.getMC();
+        this._mode_count = 0;
         this._edge_sum = 0;
 
         this._nodes = new HashMap<>();
@@ -64,7 +64,6 @@ public class WGraph_DS implements weighted_graph, java.io.Serializable {
             if (other.getV(current_key) != null) { //if current node has neighbors
                 for (node_info neighbor : other.getV(current_key)) { //go over all neighbors
                     neighbor_key = neighbor.get_key();
-                    //if (!this._edges.containsKey(neighbor_key)) //if neighbor still not in _edges
                     connect(current_key, neighbor_key, other.getEdge(current_key, neighbor_key)); //add the edge between both
                 }
             }
@@ -91,7 +90,7 @@ public class WGraph_DS implements weighted_graph, java.io.Serializable {
     @Override
     public boolean hasEdge(int node1, int node2) { //O(1)
         if (this._edges.containsKey(node1) && this._edges.containsKey(node2)) //means both nodes have neighbors
-                return (this._edges.get(node1).containsKey(node2));
+                return (this._edges.get(node1).containsKey(node2)); //means both nodes has edge between them
         return false;
     }
 
@@ -180,8 +179,8 @@ public class WGraph_DS implements weighted_graph, java.io.Serializable {
     @Override
     public Collection<node_info> getV(int node_id) {
         if (!this._edges.containsKey(node_id)){
-            Collection<node_info> col = new LinkedList<>(); ////node_id has no neighbors
-            return col;
+            Collection<node_info> col = new LinkedList<>(); //node_id has no neighbors
+            return col; //empty collection
         }
         Collection<Integer> neighborsKeyCollection = this._edges.get(node_id).keySet();
         Collection<node_info> col = new LinkedList<>();
@@ -202,12 +201,14 @@ public class WGraph_DS implements weighted_graph, java.io.Serializable {
         if (!this._nodes.containsKey(key)) return null; //node does not exist in graph
 
         node_info n = this.getNode(key);
-        if (this.getV(key) != null) {
+        if (this.getV(key).size() != 0) {
             Collection<node_info> neighbors = this.getV(key);
             for (node_info neighbor_key : neighbors) {
                 removeEdge(key, neighbor_key.get_key());
             }
-            this._edges.remove(key); //remove from edge list - means remove all edges connected to key node
+            if (this._edges.containsKey(key)) {
+                this._edges.remove(key); //remove from edge list - means remove all edges connected to key node
+            }
         }
         _mode_count++;
         this._nodes.remove(key); //remove from vertices list
@@ -245,7 +246,7 @@ public class WGraph_DS implements weighted_graph, java.io.Serializable {
      */
     @Override
     public int edgeSize() {
-        return this._edge_sum; //check if equals to (this.edges.size()) / 2
+        return this._edge_sum;
     }
 
     /**
