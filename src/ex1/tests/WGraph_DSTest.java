@@ -156,7 +156,6 @@ class WGraph_DSTest {
                 if (!flag) break;
             }
         }
-
         Collection<node_info> collection2 = graph.getV(4); //collection2 should be empty
         assertEquals(collection2.size(), 0); //test for empty collection
         assertTrue(flag);
