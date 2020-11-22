@@ -179,7 +179,10 @@ public class WGraph_DS implements weighted_graph, java.io.Serializable {
      */
     @Override
     public Collection<node_info> getV(int node_id) {
-        if (!this._edges.containsKey(node_id)) return null; //node_id has no neighbors
+        if (!this._edges.containsKey(node_id)){
+            Collection<node_info> col = new LinkedList<>(); ////node_id has no neighbors
+            return col;
+        }
         Collection<Integer> neighborsKeyCollection = this._edges.get(node_id).keySet();
         Collection<node_info> col = new LinkedList<>();
         for (Integer key : neighborsKeyCollection){ //create neighbors node collection
