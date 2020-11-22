@@ -103,7 +103,7 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
                 }
             }
         }
-        return this._graph.nodeSize() == map_visited.size(); //Means we visited each node in the graph
+        return this._graph.nodeSize() == map_visited.size(); //means we visited each node in the graph
     }
 
     /**
@@ -151,7 +151,7 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
         HashMap<Integer, Double> map_visited = new HashMap<>();
         PriorityQueue<Integer> pqueue = new PriorityQueue<>();
 
-        _graph.getNode(src).set_tag(0); //source node weight should be 0
+        _graph.getNode(src).set_tag(0); //src node weight should be 0
         node_info node_insert = _graph.getNode(src);
         pqueue.add(node_insert.get_key());
         double inf = Double.MAX_VALUE;
@@ -163,7 +163,6 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
                 pqueue.add(node.get_key());
             }
         }
-
 
         while (!pqueue.isEmpty()) {
             int current = ExtractMin(pqueue);
@@ -182,7 +181,7 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
                 map_visited.put(current, _graph.getNode(current).get_tag()); //key --> temporal weight
             }
 
-            else{
+            else{ //not relevant if tag is not smaller
                 pqueue.poll();
             }
         }
@@ -202,12 +201,12 @@ public class WGraph_Algo implements weighted_graph_algorithms, java.io.Serializa
     }
 
     /**
-     * This method returns the key of the node with the smallest tad
+     * This method returns the key of the node with the smallest tag
      * Note: the tag represents a temporal data - it is the weight between ex1.src node to current node
      * @param pq - priority queue
      */
     public int ExtractMin(PriorityQueue<Integer> pq){
-        int nodeKey_min_tag=-1; //need to change
+        int nodeKey_min_tag=-1; //means no smaller tag
         double min_tag = Double.MAX_VALUE;
         for (Integer key_node : pq){
             if (_graph.getNode(key_node).get_tag() < min_tag){
