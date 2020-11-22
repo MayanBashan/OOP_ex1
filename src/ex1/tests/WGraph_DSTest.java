@@ -4,6 +4,7 @@ import ex1.src.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -155,6 +156,10 @@ class WGraph_DSTest {
                 if (!flag) break;
             }
         }
+
+        Collection<node_info> collection2 = graph.getV(4);
+        Collection<node_info> collection_expected = new LinkedList<>();
+        assertEquals(collection2, collection_expected); //test for empty collection
         assertTrue(flag);
     }
 
